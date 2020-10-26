@@ -1,0 +1,6 @@
+.board-list-wrapper {
+	display: grid;
+	grid-template-columns: repeat((5, 1fr));
+	column-gap: 1.5rem;
+	row-gap: 1rem;
+}

@@ -1,0 +1,15 @@
+.app-layout-wrapper {
+	.app-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		.app-brand {
+			margin: 0;
+			color: white;
+		}
+	}
+	.app-content {
+		padding: 20px 50px;
+		min-height: calc(100vh - 64px);
+	}
+}
