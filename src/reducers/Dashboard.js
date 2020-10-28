@@ -6,6 +6,9 @@ const initialState = {
 			isLoading: false,
 		},
 	},
+	loadingExport: false,
+	loadingImport: false,
+	realtime: false,
 };
 
 export default (state = initialState, action) => {
@@ -31,6 +34,21 @@ export default (state = initialState, action) => {
 						list: action.payload,
 					},
 				},
+			};
+		case DASHBOARD_ACTION_TYPES.TOGGLE_REALTIME:
+			return {
+				...state,
+				realtime: !state.realtime,
+			};
+		case DASHBOARD_ACTION_TYPES.SET_LOADING_EXPORT:
+			return {
+				...state,
+				loadingExport: action.payload,
+			};
+		case DASHBOARD_ACTION_TYPES.SET_LOADING_IMPORT:
+			return {
+				...state,
+				loadingImport: action.payload,
 			};
 		default:
 			return state;
