@@ -5,7 +5,7 @@ import { PlusCircleFilled } from "@ant-design/icons";
 // components
 // others
 import "./style.scss";
-import AddBoardDrawer from "pages/Dashboard/components/AddBoardDrawer";
+import AddBoardModal from "pages/Dashboard/components/AddBoardModal";
 
 const AddNewBoard = () => {
 	const [visible, setVisible] = useState(false);
@@ -19,7 +19,7 @@ const AddNewBoard = () => {
 				<PlusCircleFilled />
 				Add board
 			</Button>
-			<AddBoardDrawer visible={visible} hide={() => setVisible(false)} />
+			<AddBoardModal visible={visible} hide={() => setVisible(false)} />
 		</>
 	);
 };

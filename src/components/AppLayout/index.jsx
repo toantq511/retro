@@ -6,19 +6,24 @@ import { Link } from "react-router-dom";
 // components
 // others
 import "./style.scss";
+import { useSelector } from "react-redux";
 
-const AppLayout = ({ children }) => (
-	<Layout className="app-layout-wrapper">
-		<Layout.Header className="app-header">
-			<Link to="/">
-				<h1 className="app-brand">Fun Retro</h1>
-			</Link>
-			<Menu theme="dark" mode="horizontal">
-				<Menu.Item icon={<UserOutlined />}>Login</Menu.Item>
-			</Menu>
-		</Layout.Header>
-		<Layout.Content className="app-content">{children}</Layout.Content>
-	</Layout>
-);
-
+const AppLayout = ({ children }) => {
+	const { name } = useSelector((state) => state.auth);
+	return (
+		<Layout className="app-layout-wrapper">
+			<Layout.Header className="app-header">
+				<Link to="/">
+					<h1 className="app-brand">Fun Retro</h1>
+				</Link>
+				<Menu theme="dark" mode="horizontal">
+					<Menu.Item icon={<UserOutlined />}>
+						{name ? name : <Link to="/login">Login</Link>}
+					</Menu.Item>
+				</Menu>
+			</Layout.Header>
+			<Layout.Content className="app-content">{children}</Layout.Content>
+		</Layout>
+	);
+};
 export default AppLayout;
