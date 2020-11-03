@@ -6,13 +6,13 @@ import React from "react";
 // Others
 import "./style.scss";
 
-const BoardColumn = ({ data }) => (
+const BoardColumn = ({ col1, col2, col3, total }) => (
 	<div className="board-column-wrapper">
 		<div className="tag-wrapper">
 			<Tag color="#87d068">Went Well</Tag>
-			<Tooltip title={data?.col1}>
+			<Tooltip title={col1}>
 				<Progress
-					percent={(data?.col1 / data?.total) * 100}
+					percent={(col1 / total) * 100 + 1}
 					strokeColor="#87d068"
 					showInfo={false}
 				/>
@@ -20,9 +20,9 @@ const BoardColumn = ({ data }) => (
 		</div>
 		<div className="tag-wrapper">
 			<Tag color="#108ee9">To Improve</Tag>
-			<Tooltip title={data?.col2}>
+			<Tooltip title={col2}>
 				<Progress
-					percent={(data?.col2 / data?.total) * 100}
+					percent={(col2 / total) * 100}
 					strokeColor="#108ee9"
 					showInfo={false}
 				/>
@@ -30,9 +30,9 @@ const BoardColumn = ({ data }) => (
 		</div>
 		<div className="tag-wrapper">
 			<Tag color="#f50">Action Items</Tag>
-			<Tooltip title={data?.col3}>
+			<Tooltip title={col3}>
 				<Progress
-					percent={(data?.col3 / data?.total) * 100}
+					percent={(col3 / total) * 100}
 					strokeColor="#f50"
 					showInfo={false}
 				/>

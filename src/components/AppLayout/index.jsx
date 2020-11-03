@@ -1,15 +1,18 @@
 // libs
 import React from "react";
-import { Layout, Menu } from "antd";
+import { Dropdown, Layout, Menu } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 // components
 // others
 import "./style.scss";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "actions/Auth";
 
 const AppLayout = ({ children }) => {
 	const { name } = useSelector((state) => state.auth);
+	const dispatch = useDispatch();
+	const { push } = useHistory();
 	return (
 		<Layout className="app-layout-wrapper">
 			<Layout.Header className="app-header">
@@ -18,7 +21,27 @@ const AppLayout = ({ children }) => {
 				</Link>
 				<Menu theme="dark" mode="horizontal">
 					<Menu.Item icon={<UserOutlined />}>
-						{name ? name : <Link to="/login">Login</Link>}
+						{name ? (
+							<Dropdown
+								trigger="click"
+								overlay={
+									<Menu>
+										<Menu.Item>
+											<Link to="/profile">Profile</Link>
+										</Menu.Item>
+										<Menu.Item
+											onClick={() => dispatch(logout(), push("/login"))}
+										>
+											Log out
+										</Menu.Item>
+									</Menu>
+								}
+							>
+								<span>{name}</span>
+							</Dropdown>
+						) : (
+							<Link to="/login">Login</Link>
+						)}
 					</Menu.Item>
 				</Menu>
 			</Layout.Header>

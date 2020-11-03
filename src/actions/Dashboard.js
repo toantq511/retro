@@ -1,6 +1,6 @@
 import { message } from "antd";
-import Axios from "axios";
 import { api } from "config/api";
+import fetcher from "config/fetcher";
 import { DASHBOARD_ACTION_TYPES } from "constants/actionTypes/Dashboard";
 
 export const setLoadingAddBoard = (isLoading) => ({
@@ -14,7 +14,8 @@ export const setLoadingGetBoard = (isLoading) => ({
 
 export const addBoard = (value) => (dispatch) => {
 	dispatch(setLoadingAddBoard(true));
-	Axios.post(api + "/board", value)
+	fetcher
+		.post(api + "/board", value)
 		.then((res) => {
 			const { data, error } = res.data;
 			if (error) message.error(error.code + ": " + error.message);
@@ -25,6 +26,22 @@ export const addBoard = (value) => (dispatch) => {
 				});
 		})
 		.finally(() => dispatch(setLoadingAddBoard(false)));
+};
+
+export const getBoard = () => (dispatch) => {
+	dispatch(setLoadingGetBoard(true));
+	fetcher
+		.get(api + "/board")
+		.then((res) => {
+			const { data, error } = res.data;
+			if (error) message.error(error.code + ": " + error.message);
+			else
+				dispatch({
+					type: DASHBOARD_ACTION_TYPES.GET_BOARD,
+					payload: data,
+				});
+		})
+		.finally(() => dispatch(setLoadingGetBoard(false)));
 };
 
 export const toggleRealtime = () => ({

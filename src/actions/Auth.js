@@ -18,11 +18,13 @@ export const login = (value) => (dispatch) => {
 		.then((res) => {
 			const { data, error } = res.data;
 			if (error) message.error(error.code + ": " + error.message);
-			else
+			else {
 				dispatch({
 					type: AUTH_ACTION_TYPES.LOGIN,
 					payload: data,
 				});
+				localStorage.setItem("token", data.token);
+			}
 		})
 		.finally(() => dispatch(setLoadingLogin(false)));
 };
@@ -36,4 +38,11 @@ export const registry = (value, cb) => (dispatch) => {
 			else if (data) cb();
 		})
 		.finally(() => dispatch(setLoadingSignup(false)));
+};
+
+export const logout = (cb) => (dispatch) => {
+	dispatch({
+		type: AUTH_ACTION_TYPES.LOGOUT,
+	});
+	if (cb) cb();
 };

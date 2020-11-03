@@ -6,6 +6,7 @@ require("dotenv").config();
 
 const serviceAccount = require("./config/serviceAccount.json");
 const jwt = require("jsonwebtoken");
+const authMdw = require("./middlewares/auth.mdw");
 const app = express();
 
 app.use(express.json());
@@ -19,33 +20,6 @@ admin.initializeApp({
 });
 
 const db = admin.firestore();
-
-app.get("/api/boards", (req, res) => {
-	db.collection("board")
-		.get()
-		.then((snapshot) =>
-			res.json(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-		);
-});
-
-app.get("/api/board/:id/column", (req, res) => {
-	db.collection("item")
-		.where("boardId", "==", req.params.id)
-		.get()
-		.then((snapshot) => {
-			const data = snapshot.docs;
-			let col1 = 0;
-			let col2 = 0;
-			let col3 = 0;
-			data.forEach((doc) => {
-				const { column } = doc.data();
-				if (column === 1) col1++;
-				else if (column === 2) col2++;
-				else if (column === 3) col3++;
-			});
-			res.json({ col1, col2, col3, total: data.length });
-		});
-});
 
 app.post("/api/signup", (req, res) => {
 	db.collection("user")
@@ -92,9 +66,107 @@ app.post("/api/login", (req, res) => {
 			} else res.json({ error: { code: 401, message: "Username not exist" } });
 		});
 });
+app.use(authMdw.getAuthentication);
+
+const createObject = (req, data) => ({
+	...data,
+	createdAt: new Date().getTime(),
+	createdBy: req.user.username,
+	updatedAt: new Date().getTime(),
+	updatedBy: req.user.username,
+});
+
+const updateObject = (req, data) => ({
+	...data,
+	updatedAt: new Date().getTime(),
+	updatedBy: req.user.username,
+});
+
+app.get("/api/board/:id/column", (req, res) => {
+	db.collection("item")
+		.where("boardId", "==", req.params.id)
+		.get()
+		.then((snapshot) => {
+			const data = snapshot.docs;
+			let col1 = 0;
+			let col2 = 0;
+			let col3 = 0;
+			data.forEach((doc) => {
+				const { column } = doc.data();
+				if (column === 1) col1++;
+				else if (column === 2) col2++;
+				else if (column === 3) col3++;
+			});
+			res.json({ col1, col2, col3, total: data.length });
+		});
+});
 
 app.post("/api/board", (req, res) => {
-	db.collection("board").add({ ...req.body, createdAt: new Date().getTime() });
+	db.collection("board")
+		.add(createObject(req, req.body))
+		.then((value) =>
+			db
+				.collection("board")
+				.doc(value.id)
+				.get()
+				.then((doc) => res.json({ data: { ...doc.data(), id: doc.id } }))
+		);
+});
+
+app.get("/api/board", (req, res) => {
+	const { username } = req.user;
+	db.collection("board")
+		.where("createdBy", "==", username)
+		.get()
+		.then(async (boardList) => {
+			const data = await Promise.all(
+				boardList.docs.map(async (board) => {
+					const itemList = await db
+						.collection("item")
+						.where("boardId", "==", board.id)
+						.get();
+					const list = itemList.docs.map((item) => ({
+						...item.data(),
+						id: item.id,
+					}));
+					return {
+						...board.data(),
+						id: board.id,
+						items: {
+							total: list.length,
+							col1: list.filter((item) => item.column === 1).length,
+							col2: list.filter((item) => item.column === 2).length,
+							col3: list.filter((item) => item.column === 3).length,
+						},
+					};
+				})
+			);
+			res.json({ data });
+		});
+});
+
+app.get("/api/board/:id", (req, res) => {
+	db.collection("board")
+		.doc(req.params.id)
+		.get()
+		.then(async (board) => {
+			if (board.exists) {
+				const itemList = await db
+					.collection("item")
+					.where("boardId", "==", board.id)
+					.get();
+				res.json({
+					data: {
+						...board.data(),
+						id: board.id,
+						items: itemList.docs.map((item) => ({
+							...item.data(),
+							id: item.id,
+						})),
+					},
+				});
+			} else res.json({ error: { code: 404, message: "Board not found" } });
+		});
 });
 
 app.listen(PORT, () => console.log("Server on localhost:" + PORT));
