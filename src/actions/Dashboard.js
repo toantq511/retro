@@ -35,7 +35,7 @@ export const getBoard = () => (dispatch) => {
 		.then((res) => {
 			const { data, error } = res.data;
 			if (error) message.error(error.code + ": " + error.message);
-			else
+			else if (data)
 				dispatch({
 					type: DASHBOARD_ACTION_TYPES.GET_BOARD,
 					payload: data,

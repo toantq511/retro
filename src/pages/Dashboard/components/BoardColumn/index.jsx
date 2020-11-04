@@ -12,7 +12,7 @@ const BoardColumn = ({ col1, col2, col3, total }) => (
 			<Tag color="#87d068">Went Well</Tag>
 			<Tooltip title={col1}>
 				<Progress
-					percent={(col1 / total) * 100 + 1}
+					percent={(col1 / total) * 100}
 					strokeColor="#87d068"
 					showInfo={false}
 				/>

@@ -12,6 +12,7 @@ import store from "./store";
 import RetroDetail from "./pages/BoardDetail/index";
 import Login from "pages/Login";
 import Registry from "pages/Registry";
+import Profile from "pages/Profile";
 
 const App = () => (
 	<Provider store={store}>
@@ -20,6 +21,7 @@ const App = () => (
 				<Switch>
 					<Route exact path="/" component={Dashboard} />
 					<Route path="/board/:id" component={RetroDetail} />
+					<Route path="/profile" component={Profile} />
 					<Route path="/login" component={Login} />
 					<Route path="/registry" component={Registry} />
 					<Route component={Page404} />

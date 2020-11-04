@@ -10,8 +10,8 @@ module.exports = {
 				req.user = user;
 				next();
 			} catch {
-				res.status(403).send();
+				res.status(401).send();
 			}
-		} else res.status(403).send();
+		} else res.status(401).send();
 	},
 };

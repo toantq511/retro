@@ -19,7 +19,9 @@ const Registry = () => {
 			<h1>Registry</h1>
 			<Form
 				layout="vertical"
-				onFinish={(value) => dispatch(registry(value, history.push("/login")))}
+				onFinish={(value) =>
+					dispatch(registry(value, () => history.push("/login")))
+				}
 			>
 				<Form.Item name="name" required rules={[{ required: true }]}>
 					<Input placeholder="Name" prefix={<SmileOutlined />} />

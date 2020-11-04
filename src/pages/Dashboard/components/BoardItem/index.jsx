@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import {
 	EllipsisOutlined,
 	ClockCircleOutlined,
-	CopyOutlined,
 	ShareAltOutlined,
 } from "@ant-design/icons";
 // components
@@ -29,9 +28,6 @@ const BoardItem = ({ board }) => (
 					}}
 				/>
 			</Tooltip>,
-			<Tooltip key="copy" title="Clone">
-				<CopyOutlined />
-			</Tooltip>,
 			<Tooltip
 				key="info"
 				title={<BoardItemInfo item={board} />}
@@ -47,8 +43,8 @@ const BoardItem = ({ board }) => (
 			</>
 		}
 	>
-		<Card.Meta description={board.desc} />
-		<BoardColumn data={board.items} />
+		<Card.Meta description={board.description} />
+		<BoardColumn {...{ ...board.items }} />
 	</Card>
 );
 

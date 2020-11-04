@@ -4,8 +4,9 @@ import BoardSingleColumn from "pages/BoardDetail/components/BoardSingleColumns";
 import React from "react";
 // components
 // others
+import "./style.scss";
 
-const BoardColumns = ({ items = [] }) => (
+const BoardColumns = ({ items, boardId }) => (
 	<div className="board-columns-wrapper">
 		{Object.values(ColumnTypes).map(
 			(index) =>
@@ -13,7 +14,8 @@ const BoardColumns = ({ items = [] }) => (
 					<BoardSingleColumn
 						key={index}
 						type={index}
-						items={items.filter((item) => item.column === index)}
+						items={items[index]}
+						boardId={boardId}
 					/>
 				)
 		)}

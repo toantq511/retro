@@ -24,7 +24,15 @@ fetcher.interceptors.response.use(
 				reject(error);
 			});
 		if (error.response.status === 403)
-			message.error("You don't have permission to access this page.");
+			return new Promise((resolve, reject) => {
+				message.error("You don't have permission to access this page.");
+				reject(error);
+			});
+		else if (error.response.status === 401)
+			return new Promise((resolve, reject) => {
+				message.error("Not logged in");
+				reject(error);
+			});
 		else {
 			return new Promise((resolve, reject) => {
 				message.error("Something went wrong.");

@@ -15,8 +15,6 @@
 		"express": "^4.17.1",
 		"firebase-admin": "^9.3.0",
 		"firestore-export-import": "^0.8.0",
-		"formidable": "^1.2.2",
-		"fs-extra": "^9.0.1",
 		"jsonwebtoken": "^8.5.1"
 	},
 	"devDependencies": {

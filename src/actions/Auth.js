@@ -8,7 +8,11 @@ export const setLoadingLogin = (isLoading) => ({
 	payload: isLoading,
 });
 export const setLoadingSignup = (isLoading) => ({
-	type: AUTH_ACTION_TYPES.SETLOADING_SIGNUP,
+	type: AUTH_ACTION_TYPES.SET_LOADING_SIGNUP,
+	payload: isLoading,
+});
+export const setLoadingGetUser = (isLoading) => ({
+	type: AUTH_ACTION_TYPES.SET_LOADING_GET_USER,
 	payload: isLoading,
 });
 
@@ -41,6 +45,7 @@ export const registry = (value, cb) => (dispatch) => {
 };
 
 export const logout = (cb) => (dispatch) => {
+	localStorage.removeItem("token");
 	dispatch({
 		type: AUTH_ACTION_TYPES.LOGOUT,
 	});
