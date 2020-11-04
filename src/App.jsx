@@ -16,7 +16,7 @@ import Profile from "pages/Profile";
 
 const App = () => (
 	<Provider store={store}>
-		<BrowserRouter>
+		<BrowserRouter basename="/retro">
 			<AppLayout>
 				<Switch>
 					<Route exact path="/" component={Dashboard} />

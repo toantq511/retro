@@ -30,7 +30,7 @@ fetcher.interceptors.response.use(
 			});
 		else if (error.response.status === 401)
 			return new Promise((resolve, reject) => {
-				message.error("Not logged in");
+				message.error("Unauthorized");
 				reject(error);
 			});
 		else {
