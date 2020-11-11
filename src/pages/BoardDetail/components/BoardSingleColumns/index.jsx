@@ -8,39 +8,47 @@ import React, { useState } from "react";
 import "./style.scss";
 import { useDispatch } from "react-redux";
 import { addItem } from "actions/BoardDetail";
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 
-const BoardSingleColumn = ({ type, items, boardId }) => {
+const BoardSingleColumn = ({ column, items, boardId }) => {
+	const [isLoading, setIsLoading] = useState(false);
 	const [isEdit, setIsEdit] = useState(false);
 	const [name, setName] = useState("");
 	const dispatch = useDispatch();
 	const hideEdit = () => {
 		setIsEdit(false);
 		setName("");
+		setIsLoading(false);
 	};
 	return (
 		<div className="board-single-column-wrapper">
-			<h2 className="title">{ColumnTypes[type]}</h2>
+			<h2 className="title">{ColumnTypes[column]}</h2>
 			{isEdit ? (
 				<>
 					<Input.TextArea
 						value={name}
 						onChange={(e) => setName(e.target.value)}
 					/>
-					<Button
-						className="btn-save"
-						type="primary"
-						onClick={() => dispatch(addItem(boardId, type, name, hideEdit))}
-					>
-						Save
-					</Button>
-					<Button
-						className="btn-cancel"
-						type="primary"
-						danger
-						onClick={hideEdit}
-					>
-						Cancel
-					</Button>
+					<div className="btns">
+						<Button
+							className="btn-save"
+							type="primary"
+							disabled={name.length === 0}
+							loading={isLoading}
+							onClick={() => {
+								setIsLoading(true);
+								dispatch(addItem(boardId, column, name, hideEdit));
+							}}
+							icon={<CheckOutlined />}
+						/>
+						<Button
+							className="btn-cancel"
+							type="primary"
+							danger
+							onClick={hideEdit}
+							icon={<CloseOutlined />}
+						/>
+					</div>
 				</>
 			) : (
 				<Button className="btn-add" onClick={() => setIsEdit(true)}>
@@ -48,7 +56,7 @@ const BoardSingleColumn = ({ type, items, boardId }) => {
 				</Button>
 			)}
 			{items.map((item) => (
-				<Item item={item} key={item.id} />
+				<Item item={item} key={item.id} column={column} />
 			))}
 		</div>
 	);

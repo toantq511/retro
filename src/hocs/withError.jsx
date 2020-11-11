@@ -17,7 +17,7 @@ const withError = (error) => (Component) =>
 			}
 		/>
 	) : (
-		Component
+		<Component />
 	);
 
 export default withError;

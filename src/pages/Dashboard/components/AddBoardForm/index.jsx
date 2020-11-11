@@ -19,9 +19,9 @@ const AddBoardForm = ({ form }) => {
 			<Form.Item required label="Name" name="name" rules={[{ required: true }]}>
 				<Input size="large" placeholder="Name" />
 			</Form.Item>
-			<Form.Item name="description" label="Description">
+			{/* <Form.Item name="description" label="Description">
 				<Input.TextArea size="large" rows={5} />
-			</Form.Item>
+			</Form.Item> */}
 		</Form>
 	);
 };

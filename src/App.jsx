@@ -13,21 +13,24 @@ import RetroDetail from "./pages/BoardDetail/index";
 import Login from "pages/Login";
 import Registry from "pages/Registry";
 import Profile from "pages/Profile";
+import { ProvideAuth } from "hooks/useAuth";
 
 const App = () => (
 	<Provider store={store}>
-		<BrowserRouter basename="/retro">
-			<AppLayout>
-				<Switch>
-					<Route exact path="/" component={Dashboard} />
-					<Route path="/board/:id" component={RetroDetail} />
-					<Route path="/profile" component={Profile} />
-					<Route path="/login" component={Login} />
-					<Route path="/registry" component={Registry} />
-					<Route component={Page404} />
-				</Switch>
-			</AppLayout>
-		</BrowserRouter>
+		<ProvideAuth>
+			<BrowserRouter basename="/retro">
+				<AppLayout>
+					<Switch>
+						<Route exact path="/" component={Dashboard} />
+						<Route path="/board/:id" component={RetroDetail} />
+						<Route path="/profile" component={Profile} />
+						<Route path="/login" component={Login} />
+						<Route path="/registry" component={Registry} />
+						<Route component={Page404} />
+					</Switch>
+				</AppLayout>
+			</BrowserRouter>
+		</ProvideAuth>
 	</Provider>
 );
 

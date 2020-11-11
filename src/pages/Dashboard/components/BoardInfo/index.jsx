@@ -4,8 +4,8 @@ import moment from "moment";
 // components
 // others
 
-const BoardItemInfo = ({ item }) => (
-	<div className="board-item-info-wrapper">
+const BoardInfo = ({ item }) => (
+	<div className="board-info-wrapper">
 		<p>Created By: {item.createdBy}</p>
 		<p>
 			Last Update: {item.updatedBy} -{" "}
@@ -13,4 +13,4 @@ const BoardItemInfo = ({ item }) => (
 		</p>
 	</div>
 );
-export default BoardItemInfo;
+export default BoardInfo;

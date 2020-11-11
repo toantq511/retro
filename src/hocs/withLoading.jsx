@@ -15,7 +15,7 @@ const withLoading = (isLoading, key) => (Component) =>
 			</Col>
 		</Row>
 	) : (
-		Component
+		<Component />
 	);
 
 export default withLoading;

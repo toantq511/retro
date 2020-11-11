@@ -1,31 +1,29 @@
 // Libs
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 // Components
 import AddNewBoard from "pages/Dashboard/components/AddNewBoard";
-import BoardItem from "pages/Dashboard/components/BoardItem";
-// Data Sources, Mocks
+import Board from "pages/Dashboard/components/Board";
 // Others
 import "./style.scss";
-// import useFirestore from "hooks/useFirestore";
-import withLoading from "hocs/withLoading";
-import { useDispatch, useSelector } from "react-redux";
-import { getBoard } from "actions/Dashboard";
+import useFirestore from "hooks/useFirestore";
 
 const BoardList = () => {
-	// const { collectionData } = useFirestore("board");
-	// const data = (collectionData || []).map((doc) => ({
-	// 	id: doc.id,
-	// 	...doc.data(),
-	// }));
-
-	const dispatch = useDispatch();
-	const { isLoadingGet, data } = useSelector((state) => state.dashboard);
-	useEffect(() => dispatch(getBoard()), [dispatch]);
-	return withLoading(isLoadingGet)(
+	const { db } = useFirestore();
+	const [data, setData] = useState([]);
+	useEffect(() => {
+		const unsubscribe = db
+			.collection("board")
+			.onSnapshot((snapshot) =>
+				setData(snapshot.docs.map((item) => ({ id: item.id, ...item.data() })))
+			);
+		return () => unsubscribe();
+	}, [db]);
+	console.log(data);
+	return (
 		<div className="board-list-wrapper">
 			<AddNewBoard />
 			{data.map((item) => (
-				<BoardItem key={item.id} board={item} />
+				<Board key={item.id} board={item} />
 			))}
 		</div>
 	);

@@ -1,13 +1,7 @@
 import { BOARD_DETAIL_ACTION_TYPES } from "constants/actionTypes/BoardDetail";
 const initialState = {
-	data: {
-		items: {
-			1: [],
-			2: [],
-			3: [],
-		},
-	},
-	isLoading: false,
+	loadingEditBoard: false,
+	loadingAddItem: false,
 };
 
 export default (state = initialState, action) => {

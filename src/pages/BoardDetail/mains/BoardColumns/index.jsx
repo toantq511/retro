@@ -1,5 +1,4 @@
 // libs
-import ColumnTypes from "constants/dataTypes/ColumnTypes";
 import BoardSingleColumn from "pages/BoardDetail/components/BoardSingleColumns";
 import React from "react";
 // components
@@ -8,17 +7,14 @@ import "./style.scss";
 
 const BoardColumns = ({ items, boardId }) => (
 	<div className="board-columns-wrapper">
-		{Object.values(ColumnTypes).map(
-			(index) =>
-				!isNaN(index) && (
-					<BoardSingleColumn
-						key={index}
-						type={index}
-						items={items[index]}
-						boardId={boardId}
-					/>
-				)
-		)}
+		{["col1", "col2", "col3"].map((key) => (
+			<BoardSingleColumn
+				key={key}
+				column={key}
+				items={items[key]}
+				boardId={boardId}
+			/>
+		))}
 	</div>
 );
 export default BoardColumns;

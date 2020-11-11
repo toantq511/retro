@@ -1,0 +1,29 @@
+.board-heading-wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	.edit {
+		width: fit-content;
+		display: flex;
+		// flex: 0 0 600px;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		.btn {
+			flex: 0 0 80px;
+			button {
+				margin: 0 0.2rem;
+			}
+		}
+	}
+	h2 {
+		margin-bottom: 0;
+	}
+	.history {
+		flex: 0 0 500px;
+		text-align: right;
+		.ant-btn {
+			margin-left: 10px;
+		}
+	}
+}

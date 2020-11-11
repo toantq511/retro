@@ -1,23 +1,11 @@
-import firebase from "firebase/app";
 import "firebase/firestore";
-import firebaseConfig from "config/firebase.json";
-import { useEffect, useRef } from "react";
-import { useState } from "react";
+import { useRef } from "react";
 
-firebase.initializeApp(firebaseConfig);
+import firebase from "../config/firebase";
 
 const useFirestore = (collectionURI) => {
 	const db = useRef(firebase.firestore());
-	const [collectionRef] = useState(db.current.collection(collectionURI));
-	const [data, setData] = useState();
-	useEffect(() => {
-		const unsubscribe = collectionRef.onSnapshot((snapshot) =>
-			setData(snapshot.docs)
-		);
-		return () => unsubscribe();
-	}, [collectionRef]);
-
-	return { db: db.current, collectionRef, collectionData: data };
+	return { db: db.current };
 };
 
 export default useFirestore;

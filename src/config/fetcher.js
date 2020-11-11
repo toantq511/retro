@@ -33,6 +33,16 @@ fetcher.interceptors.response.use(
 				message.error("Unauthorized");
 				reject(error);
 			});
+		else if (error.response.status === 404)
+			return new Promise((resolve, reject) => {
+				message.error("URL not found");
+				reject(error);
+			});
+		else if (error.response.status === 500)
+			return new Promise((resolve, reject) => {
+				message.error(error.response.data.message || "Server Error");
+				reject(error);
+			});
 		else {
 			return new Promise((resolve, reject) => {
 				message.error("Something went wrong.");

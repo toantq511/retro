@@ -1,30 +1,48 @@
 // libs
-import { getDetail } from "actions/BoardDetail";
-import withLoading from "hocs/withLoading";
+import ErrorResult from "components/ErrorResult";
+import Spinner from "components/Spinner";
+
+import useFirestore from "hooks/useFirestore";
 import BoardColumns from "pages/BoardDetail/mains/BoardColumns";
-import BoardName from "pages/BoardDetail/mains/BoardName";
-import React from "react";
+import BoardHeading from "pages/BoardDetail/mains/BoardHeading";
+import React, { useState } from "react";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 // components
 // others
 
 const BoardDetail = () => {
 	const { id } = useParams();
-	const dispatch = useDispatch();
-	useEffect(() => dispatch(getDetail(id)), [dispatch, id]);
-	const { isLoading, data } = useSelector((state) => state.detail);
-	const { name } = useSelector((state) => state.auth);
-	return name ? (
-		withLoading(isLoading)(
-			<div className="board-detail-wrapper">
-				<BoardName name={data.name} boardId={data.id} />
-				<BoardColumns items={data?.items} boardId={data.id} />
-			</div>
-		)
+	const { db } = useFirestore();
+	const [data, setData] = useState();
+	const [error, setError] = useState(false);
+	useEffect(() => {
+		const unsubscribe = db
+			.collection("board")
+			.doc(id)
+			.onSnapshot((doc) => {
+				console.log(doc.data());
+				if (doc.exists) {
+					setData({ id: doc.id, ...doc.data() });
+				} else setError({ status: 404, message: "Board not found" });
+			});
+		return () => unsubscribe();
+	}, [db, id]);
+	console.log({ data, error });
+	return error ? (
+		<ErrorResult error={error} />
+	) : data ? (
+		<div className="board-detail-wrapper">
+			<BoardHeading
+				name={data.name}
+				boardId={data.id}
+				updatedAt={data.updatedAt}
+				updatedBy={data.updatedBy}
+			/>
+			<BoardColumns items={data.items} boardId={data.id} />
+		</div>
 	) : (
-		<Redirect to="/login" />
+		<Spinner />
 	);
 };
 
