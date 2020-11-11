@@ -7,12 +7,13 @@ import { Link, useHistory } from "react-router-dom";
 import "./style.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "actions/Auth";
+import { useAuth } from "hooks/useAuth";
 
 const AppLayout = ({ children }) => {
 	const { name } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 	const { push } = useHistory();
-
+	const auth = useAuth();
 	return (
 		<Layout className="app-layout-wrapper">
 			<Layout.Header className="app-header">

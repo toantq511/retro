@@ -25,17 +25,20 @@ fetcher.interceptors.response.use(
 			});
 		if (error.response.status === 403)
 			return new Promise((resolve, reject) => {
-				message.error("You don't have permission to access this page.");
+				message.error(
+					error.response.data.message ||
+						"You don't have permission to access this page."
+				);
 				reject(error);
 			});
 		else if (error.response.status === 401)
 			return new Promise((resolve, reject) => {
-				message.error("Unauthorized");
+				message.error(error.response.data.message || "Unauthorized");
 				reject(error);
 			});
 		else if (error.response.status === 404)
 			return new Promise((resolve, reject) => {
-				message.error("URL not found");
+				message.error(error.response.data.message || "URL not found");
 				reject(error);
 			});
 		else if (error.response.status === 500)

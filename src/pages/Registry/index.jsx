@@ -2,6 +2,7 @@
 import { LockOutlined, SmileOutlined, UserOutlined } from "@ant-design/icons";
 import { registry } from "actions/Auth";
 import { Button, Form, Input } from "antd";
+import { useAuth } from "hooks/useAuth";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
@@ -14,14 +15,13 @@ const Registry = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const { isLoadingSignup } = useSelector((state) => state.auth);
+	const auth = useAuth();
 	return (
 		<div className="registry-wrapper">
 			<h1>Registry</h1>
 			<Form
 				layout="vertical"
-				onFinish={(value) =>
-					dispatch(registry(value, () => history.push("/login")))
-				}
+				onFinish={(value) => auth.signup(value, () => history.push("/login"))}
 			>
 				<Form.Item name="name" required rules={[{ required: true }]}>
 					<Input placeholder="Name" prefix={<SmileOutlined />} />

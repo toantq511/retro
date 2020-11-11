@@ -14,6 +14,7 @@ import Login from "pages/Login";
 import Registry from "pages/Registry";
 import Profile from "pages/Profile";
 import { ProvideAuth } from "hooks/useAuth";
+import PrivateRoute from "components/PrivateRoute";
 
 const App = () => (
 	<Provider store={store}>
@@ -21,9 +22,9 @@ const App = () => (
 			<BrowserRouter basename="/retro">
 				<AppLayout>
 					<Switch>
-						<Route exact path="/" component={Dashboard} />
-						<Route path="/board/:id" component={RetroDetail} />
-						<Route path="/profile" component={Profile} />
+						<PrivateRoute exact path="/" component={Dashboard} />
+						<PrivateRoute path="/board/:id" component={RetroDetail} />
+						<PrivateRoute path="/profile" component={Profile} />
 						<Route path="/login" component={Login} />
 						<Route path="/registry" component={Registry} />
 						<Route component={Page404} />
