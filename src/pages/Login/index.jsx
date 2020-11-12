@@ -4,17 +4,17 @@ import { login } from "actions/Auth";
 import { Button, Form, Input } from "antd";
 import { useAuth } from "hooks/useAuth";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 // components
 // others
 import "./style.scss";
 
 const Login = () => {
-	const dispatch = useDispatch();
-	const { isLoadingLogin, username } = useSelector((state) => state.auth);
 	const auth = useAuth();
-	return (
+	console.log(auth.user);
+	return auth.user ? (
+		<Redirect to="/" />
+	) : (
 		<div className="login-wrapper">
 			<h1>Login</h1>
 			<Form layout="vertical" onFinish={(value) => auth.signin(value)}>
@@ -24,7 +24,7 @@ const Login = () => {
 				<Form.Item name="password" required>
 					<Input.Password placeholder="Password" prefix={<LockOutlined />} />
 				</Form.Item>
-				<Button block type="primary" htmlType="submit" loading={isLoadingLogin}>
+				<Button block type="primary" htmlType="submit">
 					Login
 				</Button>
 			</Form>

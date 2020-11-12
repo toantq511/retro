@@ -1,22 +1,22 @@
 // Libs
 import { LockOutlined, SmileOutlined, UserOutlined } from "@ant-design/icons";
-import { registry } from "actions/Auth";
 import { Button, Form, Input } from "antd";
 import { useAuth } from "hooks/useAuth";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, Redirect, useHistory } from "react-router-dom";
 // Components
 // Data Sources, Mocks
 // Others
 import "./style.scss";
 
 const Registry = () => {
-	const dispatch = useDispatch();
 	const history = useHistory();
 	const { isLoadingSignup } = useSelector((state) => state.auth);
 	const auth = useAuth();
-	return (
+	return auth.user ? (
+		<Redirect to="/" />
+	) : (
 		<div className="registry-wrapper">
 			<h1>Registry</h1>
 			<Form

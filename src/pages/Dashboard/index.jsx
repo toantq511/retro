@@ -7,16 +7,11 @@ import { Redirect } from "react-router-dom";
 // components
 // others
 
-const Dashboard = () => {
-	const { name } = useSelector((state) => state.auth);
-	return name ? (
-		<div className="dashboard-wrapper">
-			<DashboardHeading />
-			<BoardList />
-		</div>
-	) : (
-		<Redirect to="/login" />
-	);
-};
+const Dashboard = () => (
+	<div className="dashboard-wrapper">
+		<DashboardHeading />
+		<BoardList />
+	</div>
+);
 
 export default Dashboard;

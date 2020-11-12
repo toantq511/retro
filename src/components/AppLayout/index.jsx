@@ -1,18 +1,14 @@
 // libs
 import React from "react";
 import { Dropdown, Layout, Menu } from "antd";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 // components
 // others
 import "./style.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "actions/Auth";
 import { useAuth } from "hooks/useAuth";
+import { CaretDownFilled } from "@ant-design/icons";
 
 const AppLayout = ({ children }) => {
-	const { name } = useSelector((state) => state.auth);
-	const dispatch = useDispatch();
-	const { push } = useHistory();
 	const auth = useAuth();
 	return (
 		<Layout className="app-layout-wrapper">
@@ -21,7 +17,7 @@ const AppLayout = ({ children }) => {
 					<h1 className="app-brand">Fun Retro</h1>
 				</Link>
 				<Menu theme="dark" mode="horizontal">
-					{name ? (
+					{auth.user ? (
 						<Dropdown
 							trigger="click"
 							overlay={
@@ -29,16 +25,18 @@ const AppLayout = ({ children }) => {
 									<Menu.Item>
 										<Link to="/profile">Profile</Link>
 									</Menu.Item>
-									<Menu.Item onClick={() => dispatch(logout(), push("/login"))}>
-										Log out
-									</Menu.Item>
+									<Menu.Item onClick={() => auth.logout()}>Log out</Menu.Item>
 								</Menu>
 							}
 						>
-							<span style={{ cursor: "pointer" }}>{name}</span>
+							<span style={{ cursor: "pointer" }}>
+								{auth.user.username} <CaretDownFilled />
+							</span>
 						</Dropdown>
 					) : (
-						<Link to="/login">Login</Link>
+						<Menu.Item>
+							<Link to="/login">Login</Link>
+						</Menu.Item>
 					)}
 				</Menu>
 			</Layout.Header>
