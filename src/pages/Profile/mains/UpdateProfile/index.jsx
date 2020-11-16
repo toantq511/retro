@@ -3,19 +3,20 @@ import { Button, Form, Input } from "antd";
 import { SmileOutlined, UserOutlined } from "@ant-design/icons";
 import React from "react";
 import { editUser } from "actions/Profile";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useAuth } from "hooks/useAuth";
 // components
 // others
 
 const UpdateProfile = () => {
 	const dispatch = useDispatch();
-	const user = useSelector((state) => state.auth);
+	const auth = useAuth();
 	return (
 		<Form
 			className="update-profile-wrapper"
-			initialValues={user}
+			initialValues={auth.user}
 			layout="vertical"
-			onFinish={(value) => dispatch(editUser(value))}
+			onFinish={(value) => dispatch(editUser(value, auth.setUser))}
 		>
 			<Form.Item
 				label="Username"

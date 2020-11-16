@@ -9,6 +9,7 @@ import "./style.scss";
 import { useDispatch } from "react-redux";
 import { addItem } from "actions/BoardDetail";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import { Draggable, Droppable } from "react-beautiful-dnd";
 
 const BoardSingleColumn = ({ column, items, boardId }) => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -55,9 +56,27 @@ const BoardSingleColumn = ({ column, items, boardId }) => {
 					Add Item
 				</Button>
 			)}
-			{items.map((item) => (
-				<Item item={item} key={item.id} column={column} />
-			))}
+			<Droppable droppableId={column} p>
+				{(provided) => (
+					<div ref={provided.innerRef}>
+						{items.map((item, index) => (
+							<Draggable key={item.id} draggableId={item.id} index={index}>
+								{(provided) => (
+									<div
+										ref={provided.innerRef}
+										{...provided.draggableProps}
+										{...provided.dragHandleProps}
+									>
+										<Item item={item} key={item.id} column={column} />
+										{provided.placeholder}
+									</div>
+								)}
+							</Draggable>
+						))}
+						{provided.placeholder}
+					</div>
+				)}
+			</Droppable>
 		</div>
 	);
 };

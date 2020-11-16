@@ -1,7 +1,6 @@
 import { message } from "antd";
 import { api } from "./api";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { createBrowserHistory } from "history"; // or createBrowserHistory
 const history = createBrowserHistory();
 
@@ -10,7 +9,6 @@ const fetcher = axios.create();
 fetcher.interceptors.request.use(
 	async (config) => {
 		const token = localStorage.getItem("access-token");
-		console.log(token);
 		config.headers = {
 			Authorization: `Bearer ${token}`,
 		};
@@ -53,7 +51,7 @@ fetcher.interceptors.response.use(
 			});
 		else {
 			return new Promise((resolve, reject) => {
-				message.error("Something went wrong.");
+				message.error(error.response.data.message || "Something went wrong.");
 				reject(error);
 			});
 		}

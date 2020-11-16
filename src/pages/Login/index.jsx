@@ -1,6 +1,5 @@
 // libs
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { login } from "actions/Auth";
 import { Button, Form, Input } from "antd";
 import { useAuth } from "hooks/useAuth";
 import React from "react";
@@ -11,7 +10,6 @@ import "./style.scss";
 
 const Login = () => {
 	const auth = useAuth();
-	console.log(auth.user);
 	return auth.user ? (
 		<Redirect to="/" />
 	) : (

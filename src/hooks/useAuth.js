@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useContext, createContext } from "react";
+import React, { useState, useContext, createContext } from "react";
 import "firebase/auth";
 import { message } from "antd";
 import fetcher from "config/fetcher";
 import jwtdecode from "jwt-decode";
-import Axios from "axios";
 const authContext = createContext();
 
 export function ProvideAuth({ children }) {
@@ -45,5 +44,6 @@ function useProvideAuth() {
 		signin,
 		signup,
 		logout,
+		setUser,
 	};
 }

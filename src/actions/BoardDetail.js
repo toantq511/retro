@@ -48,3 +48,6 @@ export const deleteBoard = (boardId) => {
 		.delete(`/board/${boardId}`)
 		.then(() => message.success("Remove Board successfully"));
 };
+
+export const moveItem = (itemId, source, destination) =>
+	fetcher.put(`/board/item/move/${itemId}`, { source, destination });

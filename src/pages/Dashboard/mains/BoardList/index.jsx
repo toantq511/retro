@@ -26,7 +26,6 @@ const BoardList = () => {
 			return () => unsubscribe();
 		}
 	}, [db, user]);
-	console.log(data);
 	return user ? (
 		<div className="board-list-wrapper">
 			<AddNewBoard />

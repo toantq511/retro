@@ -21,14 +21,12 @@ const BoardDetail = () => {
 			.collection("board")
 			.doc(id)
 			.onSnapshot((doc) => {
-				console.log(doc.data());
 				if (doc.exists) {
 					setData({ id: doc.id, ...doc.data() });
 				} else setError({ status: 404, message: "Board not found" });
 			});
 		return () => unsubscribe();
 	}, [db, id]);
-	console.log({ data, error });
 	return error ? (
 		<ErrorResult error={error} />
 	) : data ? (

@@ -1,4 +1,3 @@
-import { logout } from "actions/Auth";
 import { message } from "antd";
 import fetcher from "config/fetcher";
 import { PROFILE_ACTION_TYPES } from "constants/actionTypes/Profile";
@@ -12,21 +11,16 @@ export const setLoadingEditPassword = (isLoading) => ({
 	payload: isLoading,
 });
 
-export const editUser = (value) => (dispatch) => {
+export const editUser = (value, setUser) => (dispatch) => {
 	dispatch(setLoadingEditUser(true));
 	fetcher
 		.put("/user/", value)
 		.then((res) => {
-			const { data, error } = res.data;
-			if (error) message.error(error.code + ": " + error.message);
-			else {
-				if (data.token) localStorage.setItem("token", data.token);
-				dispatch({
-					type: PROFILE_ACTION_TYPES.UPDATE_PROFILE,
-					payload: data,
-				});
-				message.success("Update profile successfully");
-			}
+			const { token, user } = res.data;
+			console.log({ token, user });
+			if (token) localStorage.setItem("access-token", token);
+			setUser(user);
+			message.success("Update profile successfully");
 		})
 		.finally(() => dispatch(setLoadingEditUser(false)));
 };
@@ -34,15 +28,6 @@ export const editPassword = (value) => (dispatch) => {
 	dispatch(setLoadingEditPassword(true));
 	fetcher
 		.put("/user/password", value)
-		.then((res) => {
-			const { error } = res.data;
-			if (error) message.error(error.code + ": " + error.message);
-			else {
-				message.success("Update password successfully");
-				setTimeout(() => {
-					dispatch(logout());
-				}, 1000);
-			}
-		})
+		.then((res) => message.success("Update password successfully"))
 		.finally(() => dispatch(setLoadingEditPassword(false)));
 };

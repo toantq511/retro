@@ -30,7 +30,7 @@ const AppLayout = ({ children }) => {
 							}
 						>
 							<span style={{ cursor: "pointer" }}>
-								{auth.user.username} <CaretDownFilled />
+								{auth.user.name} <CaretDownFilled />
 							</span>
 						</Dropdown>
 					) : (
