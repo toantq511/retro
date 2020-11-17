@@ -1,7 +1,7 @@
 // libs
 import { moveItem } from "actions/BoardDetail";
 import BoardSingleColumn from "pages/BoardDetail/components/BoardSingleColumns";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 // components
 // others
@@ -9,6 +9,9 @@ import "./style.scss";
 
 const BoardColumns = ({ items, boardId }) => {
 	const [list, setList] = useState(items);
+	useEffect(() => {
+		setList(items);
+	}, [items]);
 	// const [col1, setCol1] = useState(items.col1);
 	// const [col2, setCol2] = useState(items.col2);
 	// const [col3, setCol3] = useState(items.col3);

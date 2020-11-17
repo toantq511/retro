@@ -1,25 +1,11 @@
 import { message } from "antd";
 import fetcher from "config/fetcher";
-import { BOARD_DETAIL_ACTION_TYPES } from "constants/actionTypes/BoardDetail";
 
-export const setLoadingAddItem = (isLoading) => ({
-	type: BOARD_DETAIL_ACTION_TYPES.SET_LOADING_ADD_ITEM,
-	payload: isLoading,
-});
-export const setLoadingEditBoard = (isLoading) => ({
-	type: BOARD_DETAIL_ACTION_TYPES.SET_LOADING_EDIT_BOARD,
-	payload: isLoading,
-});
-
-export const addItem = (boardId, column, name, cb) => (dispatch) => {
-	dispatch(setLoadingAddItem(true));
-	fetcher
-		.post(`/board/${boardId}/${column}`, { name })
-		.then(() => {
-			message.success("Add Item successfully");
-			cb && cb();
-		})
-		.finally(() => dispatch(setLoadingAddItem(false)));
+export const addItem = (boardId, column, name, cb) => {
+	fetcher.post(`/board/${boardId}/${column}`, { name }).then(() => {
+		message.success("Add Item successfully");
+		cb && cb();
+	});
 };
 
 export const editItem = (itemId, name, cb) => {
@@ -35,12 +21,10 @@ export const deleteItem = (itemId) => {
 		.then(() => message.success("Remove Item successfully"));
 };
 
-export const editBoard = (boardId, name) => (dispatch) => {
-	dispatch(setLoadingEditBoard(true));
+export const editBoard = (boardId, name) => {
 	fetcher
 		.put("/board/" + boardId, { name })
-		.then(() => message.success("Edit board successfully"))
-		.finally(() => setLoadingEditBoard(false));
+		.then(() => message.success("Edit board successfully"));
 };
 
 export const deleteBoard = (boardId) => {

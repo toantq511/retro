@@ -3,19 +3,18 @@ import React from "react";
 import { Button, Form, Input } from "antd";
 import { LockOutlined } from "@ant-design/icons";
 import { editPassword } from "actions/Profile";
-import { useDispatch, useSelector } from "react-redux";
+import { useAuth } from "hooks/useAuth";
 // components
 // others
 
 const UpdatePassword = () => {
-	const dispatch = useDispatch();
-	const user = useSelector((state) => state.auth);
+	const auth = useAuth();
 	return (
 		<Form
 			className="update-password-wrapper"
-			initialValues={user}
+			initialValues={auth.user}
 			layout="vertical"
-			onFinish={(value) => dispatch(editPassword(value))}
+			onFinish={(value) => editPassword(value)}
 		>
 			<Form.Item
 				label="Old Password"

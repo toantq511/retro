@@ -9,13 +9,11 @@ import {
 import { deleteBoard, editBoard } from "actions/BoardDetail";
 import { Button, Input, Modal } from "antd";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import moment from "moment";
 // components
 // others
 import "./style.scss";
 const BoardHeading = ({ name = "", boardId, updatedAt, updatedBy }) => {
-	const dispatch = useDispatch();
 	const [isEdit, setIsEdit] = useState(false);
 	const [value, setValue] = useState(name);
 	return (
@@ -27,7 +25,7 @@ const BoardHeading = ({ name = "", boardId, updatedAt, updatedBy }) => {
 						<Button
 							type="primary"
 							onClick={() => {
-								dispatch(editBoard(boardId, value));
+								editBoard(boardId, value);
 								setIsEdit(false);
 							}}
 							icon={<CheckOutlined />}

@@ -1,12 +1,11 @@
 // libs
-import ColumnTypes from "constants/dataTypes/ColumnTypes";
+import { ColumnNames } from "constants/ColumnNames";
 import { Button, Input } from "antd";
 import Item from "pages/BoardDetail/components/Item";
 import React, { useState } from "react";
 // components
 // others
 import "./style.scss";
-import { useDispatch } from "react-redux";
 import { addItem } from "actions/BoardDetail";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { Draggable, Droppable } from "react-beautiful-dnd";
@@ -15,7 +14,6 @@ const BoardSingleColumn = ({ column, items, boardId }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isEdit, setIsEdit] = useState(false);
 	const [name, setName] = useState("");
-	const dispatch = useDispatch();
 	const hideEdit = () => {
 		setIsEdit(false);
 		setName("");
@@ -23,7 +21,7 @@ const BoardSingleColumn = ({ column, items, boardId }) => {
 	};
 	return (
 		<div className="board-single-column-wrapper">
-			<h2 className="title">{ColumnTypes[column]}</h2>
+			<h2 className="title">{ColumnNames[column]}</h2>
 			{isEdit ? (
 				<>
 					<Input.TextArea
@@ -38,7 +36,7 @@ const BoardSingleColumn = ({ column, items, boardId }) => {
 							loading={isLoading}
 							onClick={() => {
 								setIsLoading(true);
-								dispatch(addItem(boardId, column, name, hideEdit));
+								addItem(boardId, column, name, hideEdit);
 							}}
 							icon={<CheckOutlined />}
 						/>

@@ -3,7 +3,6 @@ import { LockOutlined, SmileOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input } from "antd";
 import { useAuth } from "hooks/useAuth";
 import React from "react";
-import { useSelector } from "react-redux";
 import { Link, Redirect, useHistory } from "react-router-dom";
 // Components
 // Data Sources, Mocks
@@ -12,7 +11,6 @@ import "./style.scss";
 
 const Registry = () => {
 	const history = useHistory();
-	const { isLoadingSignup } = useSelector((state) => state.auth);
 	const auth = useAuth();
 	return auth.user ? (
 		<Redirect to="/" />
@@ -32,12 +30,7 @@ const Registry = () => {
 				<Form.Item name="password" required rules={[{ required: true }]}>
 					<Input.Password placeholder="Password" prefix={<LockOutlined />} />
 				</Form.Item>
-				<Button
-					block
-					type="primary"
-					htmlType="submit"
-					loading={isLoadingSignup}
-				>
+				<Button block type="primary" htmlType="submit">
 					Registry
 				</Button>
 			</Form>

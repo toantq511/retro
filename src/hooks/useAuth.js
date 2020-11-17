@@ -1,9 +1,13 @@
 import React, { useState, useContext, createContext } from "react";
-import "firebase/auth";
 import { message } from "antd";
+import firebase from "firebase/app";
+import "firebase/auth";
 import fetcher from "config/fetcher";
 import jwtdecode from "jwt-decode";
+
 const authContext = createContext();
+
+// firebase.initializeApp(firebaseConfig);
 
 export function ProvideAuth({ children }) {
 	const auth = useProvideAuth();
@@ -27,6 +31,56 @@ function useProvideAuth() {
 		});
 	};
 
+	const signInGoogle = () => {
+		const provider = new firebase.auth.GoogleAuthProvider();
+		firebase
+			.auth()
+			.signInWithPopup(provider)
+			.then((result) => {
+				const user = {
+					username: result.user.email,
+					name: result.user.displayName,
+				};
+				setUser(user);
+				fetcher
+					.post("/auth/token", user)
+					.then(({ data }) =>
+						localStorage.setItem("access-token", data.accessToken)
+					);
+				return user;
+			})
+			.catch((error) => {
+				const errorCode = error.code;
+				const errorMessage = error.message;
+				message.error(errorCode + ": " + errorMessage);
+			});
+	};
+
+	const signInFacebook = () => {
+		const provider = new firebase.auth.FacebookAuthProvider();
+		firebase
+			.auth()
+			.signInWithPopup(provider)
+			.then((result) => {
+				const user = {
+					username: result.user.email,
+					name: result.user.displayName,
+				};
+				setUser(user);
+				fetcher
+					.post("/auth/token", user)
+					.then(({ data }) =>
+						localStorage.setItem("access-token", data.accessToken)
+					);
+				return user;
+			})
+			.catch((error) => {
+				const errorCode = error.code;
+				const errorMessage = error.message;
+				message.error(errorCode + ": " + errorMessage);
+			});
+	};
+
 	const signup = (user, cb) => {
 		return fetcher.post("/auth/signup", user).then(() => {
 			message.success("Sign up successfully");
@@ -45,5 +99,7 @@ function useProvideAuth() {
 		signup,
 		logout,
 		setUser,
+		signInGoogle,
+		signInFacebook,
 	};
 }

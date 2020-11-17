@@ -1,5 +1,10 @@
 // libs
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import {
+	FacebookFilled,
+	GoogleCircleFilled,
+	LockOutlined,
+	UserOutlined,
+} from "@ant-design/icons";
 import { Button, Form, Input } from "antd";
 import { useAuth } from "hooks/useAuth";
 import React from "react";
@@ -27,6 +32,18 @@ const Login = () => {
 				</Button>
 			</Form>
 			New User ? <Link to="/registry">Registry</Link>
+			<div className="btns">
+				<Button
+					icon={<GoogleCircleFilled />}
+					danger
+					onClick={() => auth.signInGoogle()}
+				>
+					Login With Google
+				</Button>
+				<Button icon={<FacebookFilled />} onClick={() => auth.signInFacebook()}>
+					Login With Facebook
+				</Button>
+			</div>
 		</div>
 	);
 };
