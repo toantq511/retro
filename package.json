@@ -1,6 +1,5 @@
 {
 	"name": "retro",
-	"homepage": "http://toantq511.github.io/retro",
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {

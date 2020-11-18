@@ -16,7 +16,7 @@ import PrivateRoute from "components/PrivateRoute";
 
 const App = () => (
 	<ProvideAuth>
-		<BrowserRouter basename="/retro">
+		<BrowserRouter>
 			<AppLayout>
 				<Switch>
 					<PrivateRoute exact path="/" component={Dashboard} />
