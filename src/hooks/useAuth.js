@@ -23,13 +23,15 @@ function useProvideAuth() {
 	const [user, setUser] = useState(token ? jwtdecode(token) : false);
 
 	const signin = (user, cb) => {
-		return fetcher.post("/auth/login", user).then((response) => {
-			const { user, accessToken } = response.data;
-			setUser(user);
-			localStorage.setItem("access-token", accessToken);
-			cb && cb();
-			return response.data.user;
-		});
+		return fetcher
+			.post("/auth/login", user)
+			.then((response) => {
+				const { user, accessToken } = response.data;
+				setUser(user);
+				localStorage.setItem("access-token", accessToken);
+				return response.data.user;
+			})
+			.finally(() => cb && cb());
 	};
 
 	const signInGoogle = () => {
@@ -82,11 +84,14 @@ function useProvideAuth() {
 			});
 	};
 
-	const signup = (user, cb) => {
-		return fetcher.post("/auth/signup", user).then(() => {
-			message.success("Sign up successfully");
-			cb && cb();
-		});
+	const signup = (user, cb1, cb2) => {
+		return fetcher
+			.post("/auth/signup", user)
+			.then(() => {
+				message.success("Sign up successfully");
+				cb1 && cb1();
+			})
+			.finally(() => cb2 && cb2());
 	};
 
 	const logout = () => {

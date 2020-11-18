@@ -22,10 +22,11 @@ const Registry = () => {
 				layout="vertical"
 				onFinish={(value) => {
 					setLoading(true);
-					auth.signup(value, () => {
-						setLoading(false);
-						history.push("/login");
-					});
+					auth.signup(
+						value,
+						() => history.push("/login"),
+						() => () => setLoading(false)
+					);
 				}}
 			>
 				<Form.Item name="name" required rules={[{ required: true }]}>
