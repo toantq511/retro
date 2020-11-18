@@ -21,10 +21,10 @@ const Login = () => {
 		<div className="login-wrapper">
 			<h1>Login</h1>
 			<Form layout="vertical" onFinish={(value) => auth.signin(value)}>
-				<Form.Item name="username" required>
+				<Form.Item name="username" required rules={[{ required: true }]}>
 					<Input placeholder="Username" prefix={<UserOutlined />} />
 				</Form.Item>
-				<Form.Item name="password" required>
+				<Form.Item name="password" required rules={[{ required: true }]}>
 					<Input.Password placeholder="Password" prefix={<LockOutlined />} />
 				</Form.Item>
 				<Button block type="primary" htmlType="submit">
