@@ -22,11 +22,12 @@ function useProvideAuth() {
 	const token = localStorage.getItem("access-token");
 	const [user, setUser] = useState(token ? jwtdecode(token) : false);
 
-	const signin = (user) => {
+	const signin = (user, cb) => {
 		return fetcher.post("/auth/login", user).then((response) => {
 			const { user, accessToken } = response.data;
 			setUser(user);
 			localStorage.setItem("access-token", accessToken);
+			cb && cb();
 			return response.data.user;
 		});
 	};

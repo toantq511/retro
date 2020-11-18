@@ -2,7 +2,7 @@
 import { LockOutlined, SmileOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input } from "antd";
 import { useAuth } from "hooks/useAuth";
-import React from "react";
+import React, { useState } from "react";
 import { Link, Redirect, useHistory } from "react-router-dom";
 // Components
 // Data Sources, Mocks
@@ -12,6 +12,7 @@ import "./style.scss";
 const Registry = () => {
 	const history = useHistory();
 	const auth = useAuth();
+	const [loading, setLoading] = useState(false);
 	return auth.user ? (
 		<Redirect to="/" />
 	) : (
@@ -19,7 +20,13 @@ const Registry = () => {
 			<h1>Registry</h1>
 			<Form
 				layout="vertical"
-				onFinish={(value) => auth.signup(value, () => history.push("/login"))}
+				onFinish={(value) => {
+					setLoading(true);
+					auth.signup(value, () => {
+						setLoading(false);
+						history.push("/login");
+					});
+				}}
 			>
 				<Form.Item name="name" required rules={[{ required: true }]}>
 					<Input placeholder="Name" prefix={<SmileOutlined />} />
@@ -30,7 +37,7 @@ const Registry = () => {
 				<Form.Item name="password" required rules={[{ required: true }]}>
 					<Input.Password placeholder="Password" prefix={<LockOutlined />} />
 				</Form.Item>
-				<Button block type="primary" htmlType="submit">
+				<Button block type="primary" htmlType="submit" loading={loading}>
 					Registry
 				</Button>
 			</Form>

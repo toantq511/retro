@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import { Button, Form, Input } from "antd";
 import { useAuth } from "hooks/useAuth";
-import React from "react";
+import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 // components
 // others
@@ -15,19 +15,26 @@ import "./style.scss";
 
 const Login = () => {
 	const auth = useAuth();
+	const [loading, setLoading] = useState(false);
 	return auth.user ? (
 		<Redirect to="/" />
 	) : (
 		<div className="login-wrapper">
 			<h1>Login</h1>
-			<Form layout="vertical" onFinish={(value) => auth.signin(value)}>
+			<Form
+				layout="vertical"
+				onFinish={(value) => {
+					setLoading(true);
+					auth.signin(value, () => setLoading(false));
+				}}
+			>
 				<Form.Item name="username" required rules={[{ required: true }]}>
 					<Input placeholder="Username" prefix={<UserOutlined />} />
 				</Form.Item>
 				<Form.Item name="password" required rules={[{ required: true }]}>
 					<Input.Password placeholder="Password" prefix={<LockOutlined />} />
 				</Form.Item>
-				<Button block type="primary" htmlType="submit">
+				<Button block type="primary" htmlType="submit" loading={loading}>
 					Login
 				</Button>
 			</Form>
