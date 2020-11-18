@@ -38,6 +38,7 @@ fetcher.interceptors.response.use(
 			return new Promise((resolve, reject) => {
 				message.error(error.response.data.message || "Unauthorized");
 				history.push("/login");
+				reject(error);
 			});
 		else if (error.response.status === 404)
 			return new Promise((resolve, reject) => {

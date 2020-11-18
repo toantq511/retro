@@ -25,7 +25,7 @@ const Registry = () => {
 					auth.signup(
 						value,
 						() => history.push("/login"),
-						() => () => setLoading(false)
+						() => setLoading(false)
 					);
 				}}
 			>
